@@ -1,5 +1,6 @@
-import './App.css'
+import "./App.css";
+import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
 
 export default function App() {
-  return <div>Olá mundo!</div>
+  return <ShoppingCart />;
 }

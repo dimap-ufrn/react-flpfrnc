@@ -1,5 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 :root {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 }
+
+body {
+background: rgb(236, 236, 236);
+}
+

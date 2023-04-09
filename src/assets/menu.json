@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Pizza da mãe",
+    "description": "Saborosa pizza caseira feita por sua mãe.",
+    "imageUrl": "images/pizza_calabresa.jpg",
+    "price": 79.9
+  },
+  {
+    "id": 2,
+    "name": "Churrasquinho",
+    "description": "Delicioso espetinho à moda da (sua) casa.",
+    "imageUrl": "images/churrasquinho.jpg",
+    "price": 29.95
+  },
+  {
+    "id": 3,
+    "name": "Espaguete",
+    "description": "Apetitoso macarrão. Basta seguir a receita.",
+    "imageUrl": "images/espaguete.jpg",
+    "price": 59.9
+  }
+]
