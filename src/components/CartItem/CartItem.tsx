@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { priceFormat } from "../utils";
+import { ShoppingCartContext } from "../../context/ShoppingCartContext";
 
 interface ItemDetailProps {
   id: number;
@@ -9,11 +10,23 @@ interface ItemDetailProps {
   price: number;
 }
 
-const CartItem = ({ name, description, imageUrl, price }: ItemDetailProps) => {
-  const [itemQuantity, setItemQuantity] = useState(0);
+const CartItem = ({
+  id,
+  name,
+  description,
+  imageUrl,
+  price,
+}: ItemDetailProps) => {
+  const {
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    getItemQuantity,
+    remove,
+  } = useContext(ShoppingCartContext);
+
   return (
-    <div className="flex gap-4 p-4 shadow-xl bg-white rounded-2xl overflow-hidden">
-      <div className="-my-4 -ml-4">
+    <div className="flex gap-4 p-4 shadow-xl bg-white rounded-2xl overflow-hidden h-[120px]">
+      <div className="-my-4 -ml-4 w-[120px]">
         <img className="h-full shadow-sm shadow-black" src={imageUrl} />
       </div>
       <div className="flex flex-col justify-center">
@@ -25,36 +38,36 @@ const CartItem = ({ name, description, imageUrl, price }: ItemDetailProps) => {
       </div>
       <div className="flex justify-center items-center">
         <div className="flex justify-center items-center">
-          <div className="w-10 h-10 bg-[lightgray] flex justify-center items-center">
-            {itemQuantity}
+          <div className="w-10 h-10 bg-[#979ACF4D] flex justify-center items-center rounded-lg">
+            {getItemQuantity(id)}
           </div>
           <div className="flex flex-col">
             <button
               id="increaseQuantity"
               className="w-10"
-              onClick={() => setItemQuantity(itemQuantity + 1)}
+              onClick={() => increaseCartQuantity(id)}
             >
               ⬆️
             </button>
             <button
               id="decreaseQuantity"
               className="w-10"
-              onClick={() => {
-                itemQuantity > 0 && setItemQuantity(itemQuantity - 1);
-              }}
+              onClick={() => decreaseCartQuantity(id)}
             >
               ⬇️
             </button>
           </div>
         </div>
         <div className="min-w-[10rem] px-4 text-end">
-          {itemQuantity > 0 ? priceFormat(price * itemQuantity) : "R$ 0.00"}
+          {getItemQuantity(id) > 0
+            ? priceFormat(price * getItemQuantity(id))
+            : "R$ 0.00"}
         </div>
         <div>
           <button
-            id="decreaseQuantity"
+            id="clearItemQuantity"
             className="w-10"
-            onClick={() => setItemQuantity(0)}
+            onClick={() => remove(id)}
           >
             🗑️
           </button>

@@ -1,12 +1,7 @@
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useState,
-} from "react";
+import { ReactNode, createContext, useState } from "react";
+import mockItems from "../assets/menu.json";
 
-interface PurchaseProviderProps {
+interface ShoppingCartProviderProps {
   children?: ReactNode;
 }
 
@@ -16,27 +11,39 @@ type CartItem = {
 };
 
 interface ContextProps {
-  totalItems: number;
   cartItems: CartItem[];
+  cartTotalItems: number;
+  cartTotalPrice: number;
   getItemQuantity: (id: number) => number;
   increaseCartQuantity: (id: number) => void;
   decreaseCartQuantity: (id: number) => void;
   remove: (id: number) => void;
+  removeAll: () => void;
 }
 
-export const PurchaseContext = createContext<ContextProps>({} as ContextProps);
+export const ShoppingCartContext = createContext<ContextProps>(
+  {} as ContextProps
+);
 
-export function PurchaseProvider(props: PurchaseProviderProps) {
+export function ShoppingCartProvider(props: ShoppingCartProviderProps) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  const totalItems = cartItems.reduce(
-    (quantity, item) => item.quantity + quantity,
+  function getItemQuantity(id: number) {
+    return cartItems.find((cartItem) => cartItem.id === id)?.quantity || 0;
+  }
+
+  const cartTotalItems = cartItems.reduce(
+    (quantity, cartItem) => cartItem.quantity + quantity,
     0
   );
 
-  function getItemQuantity(id: number) {
-    return cartItems.find((item) => item.id === id)?.quantity || 0;
-  }
+  const cartTotalPrice = cartItems.reduce((quantity, cartItem) => {
+    return (
+      quantity +
+      (mockItems.find((i) => i.id === cartItem.id)?.price || 0) *
+        cartItem.quantity
+    );
+  }, 0);
 
   function increaseCartQuantity(id: number) {
     setCartItems((currentItems) => {
@@ -73,17 +80,19 @@ export function PurchaseProvider(props: PurchaseProviderProps) {
   }
 
   return (
-    <PurchaseContext.Provider
+    <ShoppingCartContext.Provider
       value={{
-        totalItems,
+        cartTotalPrice,
+        cartTotalItems,
         cartItems,
         getItemQuantity,
         increaseCartQuantity,
         decreaseCartQuantity,
         remove,
+        removeAll,
       }}
     >
       {props.children}
-    </PurchaseContext.Provider>
+    </ShoppingCartContext.Provider>
   );
 }
