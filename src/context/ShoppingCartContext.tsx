@@ -1,14 +1,10 @@
 import { ReactNode, createContext, useState } from "react";
 import mockItems from "../assets/menu.json";
+import { CartItem } from "../types";
 
 interface ShoppingCartProviderProps {
   children?: ReactNode;
 }
-
-type CartItem = {
-  id: number;
-  quantity: number;
-};
 
 interface ContextProps {
   cartItems: CartItem[];

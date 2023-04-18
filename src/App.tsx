@@ -1,11 +1,13 @@
-import "./App.css";
-import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
+import { PreviousOrdersProvider } from "./context/PreviousOrdersContext";
 import { ShoppingCartProvider } from "./context/ShoppingCartContext";
+import ShoppingCart from "./components/ShoppingCart/ShoppingCart";
 
 export default function App() {
   return (
     <ShoppingCartProvider>
-      <ShoppingCart />
+      <PreviousOrdersProvider>
+        <ShoppingCart />
+      </PreviousOrdersProvider>
     </ShoppingCartProvider>
   );
 }
